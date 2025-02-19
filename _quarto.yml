@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Project 1 - Data Science - Stanley Lo"
+  title: "stanleylo4.github.io"
   navbar:
     left:
       - href: index.qmd
