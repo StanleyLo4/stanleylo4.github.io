@@ -1,0 +1,52 @@
+---
+title: "Global Seafood Production"
+description: Analysis of Global Seafood Production data from TidyTuesday
+
+author: Stanley Lo
+date: February 19, 2025
+format: html
+---
+
+This analysis explores the global seafood production dataset provided by TidyTuesday and we can see the trends in seafood production through time. 
+
+From the plot, we see that global seafood production has increased steadily into the 2000s and since then, has leveled off and is staying consistently high probably due to controls on overfishing.
+
+Citation: https://ourworldindata.org/fish-and-overfishing
+
+---
+title: "NFL Attendance Analysis"
+description: Exploring NFL attendance trends from TidyTuesday
+author: Stanley Lo
+date: February 19, 2025
+format: html
+---
+
+This analysis looks at the NFL attendance trends provided by TidyTuesday.
+
+From the plot, we can see that weekly attendance since 2000 for NFL games has stayed relatively constant with the median weekly attendance staying high through 2019.
+
+Citation:  https://www.pro-football-reference.com/years/2018/attendance.htm
+
+---
+
+```{r}
+library(tidyverse)
+seafood <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-12/seafood-and-fish-production-thousand-tonnes.csv')
+
+ggplot(seafood, aes(x = Year, y = `Commodity Balances - Livestock and Fish Primary Equivalent - Pelagic Fish - 2763 - Production - 5510 - tonnes`)) +
+  geom_line() +
+  labs(title = "Global Seafood Production Over   Time", x = "Year", y = "Production (tonnes)")
+
+```
+
+```{r}
+library(tidyverse)
+nfl_attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')
+
+ggplot(nfl_attendance, aes(x = year, y = weekly_attendance)) +
+  geom_boxplot(aes(group = year), fill = "blue", alpha = 0.7) + labs(title = "NFL Weekly Attendance by Year", x = "Year", 
+  y = "Weekly Attendance")
+
+```
+
+![](images/clipboard-9133593.png)

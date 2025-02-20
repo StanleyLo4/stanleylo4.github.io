@@ -3,18 +3,21 @@ project:
   output-dir: docs
 
 website:
-  title: "stanleylo4.github.io"
+  title: "Stanley Lo"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
 
+# ~ additional metadata excluded for brevity ~
+
+# supplying a light ("minty") and dark ("slate") theme to toggle between
 format:
   html:
-    theme: cosmo
+    theme: 
+      light: minty
+      dark: solar
     css: styles.css
-    toc: true
-
-editor: visual
+    page-layout: full
 
