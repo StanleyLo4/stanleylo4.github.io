@@ -9,6 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - Plots-Project1.qmd
 
 # ~ additional metadata excluded for brevity ~
 

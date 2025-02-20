@@ -1,6 +1,6 @@
 ---
-title: "Global Seafood Production"
-description: Analysis of Global Seafood Production data from TidyTuesday
+title: "Global Seafood Production & NFL Weekly Attendance Analysis"
+description: Analysis of Global Seafood Production data from TidyTuesday and Exploring NFL attendance trends from TidyTuesday & Global Seafood
 
 author: Stanley Lo
 date: February 19, 2025
@@ -12,14 +12,6 @@ This analysis explores the global seafood production dataset provided by TidyTue
 From the plot, we see that global seafood production has increased steadily into the 2000s and since then, has leveled off and is staying consistently high probably due to controls on overfishing.
 
 Citation: https://ourworldindata.org/fish-and-overfishing
-
----
-title: "NFL Attendance Analysis"
-description: Exploring NFL attendance trends from TidyTuesday
-author: Stanley Lo
-date: February 19, 2025
-format: html
----
 
 This analysis looks at the NFL attendance trends provided by TidyTuesday.
 

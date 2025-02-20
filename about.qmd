@@ -1,9 +1,8 @@
 ---
 title: "About"
+
+description: I am a sophomore at Claremont McKenna College, pursuing a dual major in Economics and Data Science. My academic journey is driven by a passion for understanding complex economic systems and leveraging data analytics to derive actionable insights. At Claremont McKenna, I have honed my analytical skills through rigorous coursework in econometrics, statistical modeling, and programming languages such as Python and R. I am particularly interested in how data can inform economic policies and business strategies, enhancing decision-making processes across various sectors.
 ---
 
-About this site
-
-```{r}
-1 + 1
+```{}
 ```
