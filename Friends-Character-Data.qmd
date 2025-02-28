@@ -11,7 +11,7 @@ library(friends)
 library(tidyverse)
 library(stringr)
 library(ggplot2)
-
+data(friends)
 
 friends <- friends |>
 mutate(word_count = str_count(text, "\\w+"), 
