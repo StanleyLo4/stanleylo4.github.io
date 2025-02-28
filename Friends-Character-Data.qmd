@@ -1,0 +1,83 @@
+---
+title: "Who Asks the Most Questions in Friends?"
+format: html
+---
+
+Questions of Interest: "How do questions change throughout the seasons of Friends, and which characters ask the most questions?"
+
+
+```{r}
+library(friends)
+library(tidyverse)
+library(stringr)
+library(ggplot2)
+
+
+friends <- friends |>
+mutate(word_count = str_count(text, "\\w+"), 
+first_word = str_extract(text, "^\\w+"),
+ends_with_question_mark = str_detect(text, "\\?$"))
+
+
+question_words <- "Who|What|When|Where|Why|How"
+friends <- friends |>
+mutate(starts_with_question_word = str_detect(text,  str_c("^(", question_words, ")\\b")),
+contains_question_word = str_detect(text, str_c("\\b(", question_words, ")\\b")),
+question_word_count = str_count(text, str_c("\\b(", question_words, ")\\b")))
+
+friends <- friends |>
+mutate(complex_question = str_detect(text, str_c("^(?!(", question_words, ")\\b).*\\?$")))
+
+
+season_questions <- friends |>
+group_by(season) |>
+summarise(question_ratio = mean(ends_with_question_mark),
+complex_question_ratio = mean(complex_question))
+
+```
+
+```{r}
+
+ggplot(season_questions, aes(x = season)) +
+geom_line(aes(y = question_ratio, color = "All Questions")) +
+geom_line(aes(y = complex_question_ratio, color = "Complex Questions")) + labs(title = "Question Usage Throughout Friends Seasons", x = "Season", y = "Proportion of Lines", color = "Question Type")
+
+```
+
+This graph shows how question usage is changing throughout the
+multiple seasons of the show Friends. We see that all questions asked are stable but a slight dip in the proportion of lines dedicated to questions in the middle of the graph. At the same time, complex questions took a hit as well but since the proportional difference is only around 0.04, it is not a significant drop in questions being asked in the show Friends.
+
+```{r}
+
+main_characters <- c("Monica Geller", "Rachel Green", "Phoebe Buffay", "Chandler Bing", "Joey Tribbiani", "Ross Geller")
+
+character_questions <- friends |>
+filter(speaker %in% main_characters) |>
+group_by(speaker) |>
+summarise(question_ratio = mean(ends_with_question_mark),
+question_word_ratio = mean(contains_question_word),
+total_lines = n()) |>
+arrange(desc(question_ratio))
+
+```
+
+```{r}
+ggplot(character_questions, aes(x = speaker, y = question_ratio)) + geom_bar(stat = "identity", fill = "blue") + labs(title = "Proportion of Questions Asked by Main Characters", x = "Character", y = "Proportion of Lines Ending with Question Mark")
+```
+
+From our analysis of characters and the questions they ask.
+We see that Monica seems to be the character that asks the most questions with around 24% of her lines being QUESTIONS 
+which is insane. Besides that, the rest of the characters
+also have similar rates of asking questions with everyone
+except Phoebe having a proportion of lines ending with
+question marks above 20%. Because Monica is asking the most
+questions, we see that Monica is possibly also questioning
+the decisions of her Friends much more than the others. This
+could show the differentiated strategy in which the directors
+are trying to develop the personalities of each character.
+
+CITATIONS:
+
+https://github.com/EmilHvitfeldt/friends
+
+Character Mining Project: https://www.emorynlp.org/#

@@ -10,6 +10,7 @@ website:
         text: Home
       - about.qmd
       - Plots-Project1.qmd
+      - Friends-Character-Data.qmd
 
 # ~ additional metadata excluded for brevity ~
 
