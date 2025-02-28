@@ -7,7 +7,7 @@ date: February 19, 2025
 format: html
 ---
 
-This analysis explores the global seafood production dataset provided by TidyTuesday and we can see the trends in seafood production through time. 
+This analysis explores the global seafood production dataset provided by TidyTuesday and we can see the trends in seafood production through time.
 
 From the plot, we see that global seafood production has increased steadily into the 2000s and since then, has leveled off and is staying consistently high probably due to controls on overfishing.
 
@@ -17,9 +17,9 @@ This analysis looks at the NFL attendance trends provided by TidyTuesday.
 
 From the plot, we can see that weekly attendance since 2000 for NFL games has stayed relatively constant with the median weekly attendance staying high through 2019.
 
-Citation:  https://www.pro-football-reference.com/years/2018/attendance.htm
+Citation: https://www.pro-football-reference.com/years/2018/attendance.htm
 
----
+------------------------------------------------------------------------
 
 ```{r}
 library(tidyverse)
