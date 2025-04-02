@@ -1,0 +1,99 @@
+---
+title: "Simulation"
+author: Stanley Lo
+format: html
+---
+
+Research Question: "Do Action Movies in the summer get different IMDB ratings than Drama Movies in the summer?"
+
+The variables for this question would include the Genres and the
+average IMBD rating.
+
+The null hypothesis: Action Movies do not have significantly different
+IMBD ratings compared to Drama Movies.
+
+Alternative Hypothesis: Action Movies do have significantly different
+IMBD ratings compared to Drama Movies.
+
+This analysis checks whether observed rating differences between Action and Drama films reflect genre qualities or random variation. Using permutation testing, we'll simulate 10,000 random genre assignments to build a null distribution of rating differences.
+
+```{r}
+library(tidyverse)
+library(infer)  
+
+summer_movies <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-07-30/summer_movies.csv")
+genres <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-07-30/summer_movie_genres.csv")
+
+action_drama <- genres |>
+  filter(genres %in% c("Action", "Drama")) |>
+  inner_join(select(summer_movies, -genres), by = "tconst") |>  
+  group_by(tconst) |>
+  filter(n() == 1) |>
+  ungroup() |>
+  mutate(
+    genres = factor(genres),
+    average_rating = as.numeric(average_rating)
+  ) |>
+  drop_na(average_rating, genres)
+
+genre_permutation_test <- function(data, n_perm = 1000) {
+  effect <- data |>
+    specify(average_rating ~ genres) |>  
+    calculate(stat = "diff in means", order = c("Action", "Drama"))
+  
+  null_dist <- data |>
+    specify(average_rating ~ genres) |>  
+    hypothesize(null = "independence") |>
+    generate(reps = n_perm, type = "permute") |>
+    calculate(stat = "diff in means", order = c("Action", "Drama"))
+  
+  p_value <- get_p_value(null_dist, obs_stat = effect, direction = "both")
+  
+  list(
+    observed_effect = effect,
+    null_distribution = null_dist,
+    p_value = p_value
+  )
+}
+
+set.seed(2025)
+genre_results <- genre_permutation_test(action_drama, 10000)
+```
+
+```{r}
+action_drama |>
+  ggplot(aes(x = average_rating, fill = genres)) +
+  geom_density(alpha = 0.6) +
+  labs(title = "Rating Distribution by Genre",
+       x = "Average Rating",
+       y = "Density", fill = "Genre") +
+  scale_fill_manual(values = c("red", "blue"))
+
+```
+Since the action movies are showing a left skew and has a mean of 6.2 compared to the mean of the drama movies are 6.5 which shows a slight difference in the ratings.
+
+```{r}
+genre_results$null_distribution |>
+  visualize() +
+  shade_p_value(genre_results$observed_effect, direction = "both") + labs(
+    title = "Null Distribution of Rating Differences",
+    subtitle = "Based on Permutation Testing (10,000 Simulations)",
+    x = "Difference in Means (Action - Drama)",
+    y = "Frequency"
+  )
+
+observed_diff <- genre_results$observed_effect$stat
+p_val <- genre_results$p_value
+```
+This shows the difference is extremely small and the distribution is centered at zero and the difference is at the tail of the null distribution, therefore, this cannot have happened by chance alone.
+
+```{r}
+n_permutations <- c(1000, 5000, 10000) |>
+  set_names() |>
+  map_dbl(
+    ~genre_permutation_test(action_drama, .x)$p_value |> 
+      as.numeric() 
+  )
+```
+
+For this project, I investigated whether Action movies released in the summer have significantly different IMDb ratings compared to Drama movies. I used a dataset from IMDb through TidyTuesday that includes genres and average ratings for summer movies. To test my hypothesis, I performed a permutation test by randomly shuffling genres 10,000 times to simulate the null hypothesis of no difference in ratings. I visualized the original data using a density plot to compare the distributions of ratings for Action and Drama movies, which showed that Drama movies tend to have slightly higher ratings on average. Finally, I plotted the null distribution of differences in means and observed that the actual difference lies in the tail, indicating statistical significance. This suggests that genre does play a role in summer movie ratings.

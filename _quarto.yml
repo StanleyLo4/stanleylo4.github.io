@@ -11,6 +11,7 @@ website:
       - about.qmd
       - Plots-Project1.qmd
       - Friends-Character-Data.qmd
+      - Simulation.qmd
 
 # ~ additional metadata excluded for brevity ~
 
