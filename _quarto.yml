@@ -8,10 +8,15 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - Plots-Project1.qmd
-      - Friends-Character-Data.qmd
-      - Simulation.qmd
+        menu:
+        - text: "About"
+          href: about.html
+        - text: "Plots Project 1"
+          href: plots-project1.html
+        - text: "Friends Character Data"
+          href: Friends-Character-Data.html
+        - text: "Simulation" 
+          href: Simulation.html
 
 # ~ additional metadata excluded for brevity ~
 
