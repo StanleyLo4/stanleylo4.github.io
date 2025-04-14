@@ -17,6 +17,8 @@ website:
           href: Friends-Character-Data.html
         - text: "Simulation" 
           href: Simulation.html
+        - text: "EthicsDataPower" 
+          href: EthicsDataPower.html
 
 # ~ additional metadata excluded for brevity ~
 

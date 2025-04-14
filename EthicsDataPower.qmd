@@ -1,0 +1,33 @@
+---
+title: "EthicsDataPower"
+format: html
+---
+
+Ethical Dilemma: Facebook emotional contagion experiment (patient consent, among other things). Kramer, A. D., Guillory, J. E., and Hancock, J. T. (2014), Experimental Evidence of Massive-Scale Emotional Contagion through Social Networks, Proceedings of the National Academy of Sciences of the United States of America, 111, 8788–8790.
+
+Secondary Article used: "Everything We Know About Facebook's Secret Mood-Manipulation Experiment" by The Atlantic on June 28, 2014
+https://www.theatlantic.com/technology/archive/2014/06/everything-we-know-about-facebooks-secret-mood-manipulation-experiment/373648/
+
+Work is Grounded in: [Examine] how power operates in the world today. This consists of asking who questions about data science: Who does the work (and who is pushed out)? Who benefits (and who is neglected or harmed)? Whose priorities get turned into products (and whose are overlooked)?1
+How did we get to the point where data science is used almost exclusively in the service of profit (for a few), surveillance (of the minoritized), and efficiency (amidst scarcity)?
+
+Summary of Experiment: 
+The Facebook Emotional Contagion Experiment, conducted by Kramer, Guillory, and Hancock in 2012, tested whether emotions are contagious online by manipulating the News Feeds of approximately 700,000 users without their knowledge. For one week, researchers reduced either positive or negative posts in users’ feeds to observe how this affects their emotional expression. The study found that users exposed to fewer positive posts were more likely to post negative updates, providing evidence of emotional contagion.The experiment faced significant controversy due to ethical concerns over informed consent and privacy violation.
+
+1. What is the permission structure for using the data? Was it followed?
+
+Facebook relied on its Terms of Service to justify using user data for the experiment. The ToS allowed Facebook to use data for research purposes, so technically, the company didn’t break any rules. However, this permission structure wasn’t enough to meet ethical standards. Users had no idea their data would be used for an experiment that manipulated their emotions. While Facebook followed its own policies, it ignored basic ethical principles like transparency and informed consent.
+
+2. What was the consent structure for recruiting participants? Were participants aware of how their data would be used?
+
+There was no real consent structure in place for this experiment. Users weren’t told they were part of a psychological study, and they weren’t asked if they agreed to have their News Feeds manipulated. Ethical research requires that participants know what they’re agreeing to but Facebook didn’t provide this information. Instead, they assumed users had agreed to everything through the ToS, which most people don’t even read. This lack of informed consent is one of the main reasons why the study faced so much backlash.
+
+3. Is the data identifiable? All of it? Some of it? In what way? Are the data sufficiently anonymized or old to be free of ethical concerns? Is anonymity guaranteed?
+
+The study didn’t fully anonymize user data during the experiment because it directly manipulated peoples emotional states based on their News Feeds. Even though the final results didn’t include names or personal details, anonymity wasn’t guaranteed. This is a problem because users weren’t aware their emotions were being tracked and influenced in real time.The lack of proper anonymization during the experiment raises serious ethical concerns about privacy and how companies handle user data.
+
+4. Is the data being used in unintended ways compared to its original purpose?
+
+Yes, this experiment used data in ways that most users wouldn’t have expected when they signed up for Facebook. People probably assumed their data would be used for things like improving platform features or targeted advertising and not psychological experiments designed to manipulate their emotions. This kind of unexpected use of data shows how vague terms like “research purposes” in a ToS can lead to unethical practices. If Facebook wanted to use its platform for experiments like this, it should have been upfront with users.
+
+
