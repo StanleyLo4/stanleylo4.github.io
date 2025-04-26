@@ -1,0 +1,117 @@
+---
+title: "Stanford Open Policing Analysis"
+format: html
+---
+
+We are analyzing whether there is a difference in arrest rates and search rates among all the races being pulled over. In California, we have taken two cities from the Bay Area, San Francisco and Oakland, and one city from Southern California, Anaheim. We will analyze their data.
+
+```{r}
+library(DBI)
+library(RMariaDB)
+
+con_traffic <- dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "traffic",
+  host = Sys.getenv("TRAFFIC_HOST"),
+  user = Sys.getenv("TRAFFIC_USER"),
+  password = Sys.getenv("TRAFFIC_PWD")
+)
+```
+
+
+```{sql connection=con_traffic, output.var="arrest_data"}
+SELECT 
+    city,
+    subject_race,
+    COUNT(*) AS total_stops,
+    AVG(CASE WHEN arrest_made THEN 1 ELSE 0 END) AS arrest_rate
+FROM (
+    SELECT 
+        'San Francisco' AS city,
+        YEAR(date) AS stop_year,
+        subject_race,
+        arrest_made
+    FROM ca_san_francisco_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+    
+    UNION ALL
+    
+    SELECT 
+        'Oakland' AS city,
+        YEAR(date) AS stop_year,
+        subject_race,
+        arrest_made
+    FROM ca_oakland_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+    
+    UNION ALL
+    
+    SELECT 
+        'San Jose' AS city,
+        YEAR(date) AS stop_year,
+        subject_race,
+        arrest_made 
+    FROM ca_san_jose_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+) AS combined
+GROUP BY city, subject_race
+ORDER BY arrest_rate DESC;
+```
+
+```{r}
+library(ggplot2)
+  ggplot(arrest_data, aes(x = subject_race, y = arrest_rate, fill = city)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Arrest Rates by Race (2014-2017)", x = "Subject Race", y = "Arrest Rate", fill = "City")
+```
+
+By This chart, we see that black people face higher arrest rates across every city and especially in Oakland where it is almost twice the arrest rate of the next race. Hispanics also face the second highest rates of arrest across the board.
+
+```{sql connection=con_traffic, output.var="search_data"}
+SELECT 
+    city,
+    subject_race,
+    COUNT(*) AS total_stops,
+    ROUND(100.0 * AVG(CASE WHEN search_conducted THEN 1 ELSE 0 END), 2) AS search_rate
+FROM (
+    SELECT 
+        'San Francisco' AS city,
+        subject_race,
+        search_conducted
+    FROM ca_san_francisco_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+
+    UNION ALL
+
+    SELECT 
+        'Oakland' AS city,
+        subject_race,
+        search_conducted
+    FROM ca_oakland_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+
+    UNION ALL
+
+    SELECT 
+        'San Jose' AS city,
+        subject_race,
+        search_conducted
+    FROM ca_san_jose_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+) AS combined
+GROUP BY city, subject_race
+ORDER BY city, search_rate DESC;
+```
+
+```{r}
+library(ggplot2)
+ggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = "dodge") + labs(title = "Search Rates by Race (2014-2017)", x = "Subject Race", y = "Search Rate (%)", fill = "City")
+```
+
+Similar to the data for Arrest Rates, Search rates are higher across the board for black and hispanic people. However, in this case, Hispanic people sometimes have a higher search rate than black people such as in San Jose and the gap between black & hispanic people have closed to around similar rates in San Jose but not in Oakland and San Francisco.
+
+All in all, this shows that in Major Cities in the Bay Area, Black and Hispanic people have higher search and arrest rates than other races. This may show that the police reforms that happened back in 2016 may not have fully solved the problem of high search and arrest rates for Black and Hispanic people.
+
+Data is from: Stanford Open Policing Project: https://openpolicing.stanford.edu/data/
+
+Citation: Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.

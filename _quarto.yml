@@ -19,7 +19,9 @@ website:
           href: Simulation.html
         - text: "EthicsDataPower" 
           href: EthicsDataPower.html
-
+        - text: "Stanford Open Policing Analysis" 
+          href: StanfordOpenPolicingAnalysis.html
+          
 # ~ additional metadata excluded for brevity ~
 
 # supplying a light ("minty") and dark ("slate") theme to toggle between
