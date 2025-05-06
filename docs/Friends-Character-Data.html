@@ -134,11 +134,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./Plots-Project1.html"> 
-<span class="menu-text">Global Seafood Production &amp; NFL Weekly Attendance Analysis</span></a>
+<span class="menu-text">Plots Project 1</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./Friends-Character-Data.html" aria-current="page"> 
-<span class="menu-text">Who Asks the Most Questions in Friends?</span></a>
+<span class="menu-text">Friends Character Data</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Simulation.html"> 
+<span class="menu-text">Simulation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./EthicsDataPower.html"> 
+<span class="menu-text">EthicsDataPower</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Stanford-Open-Policing-Analysis.html"> 
+<span class="menu-text">Stanford Open Policing Analysis</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -178,48 +190,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Questions of Interest: “How do questions change throughout the seasons of Friends, and which characters ask the most questions?”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(friends)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(friends)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">word_count =</span> <span class="fu">str_count</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>), </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">first_word =</span> <span class="fu">str_extract</span>(text, <span class="st">"^</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">ends_with_question_mark =</span> <span class="fu">str_detect</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">?$"</span>))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>question_words <span class="ot">&lt;-</span> <span class="st">"Who|What|When|Where|Why|How"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">starts_with_question_word =</span> <span class="fu">str_detect</span>(text,  <span class="fu">str_c</span>(<span class="st">"^("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)),</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">contains_question_word =</span> <span class="fu">str_detect</span>(text, <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">question_word_count =</span> <span class="fu">str_count</span>(text, <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)))</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">complex_question =</span> <span class="fu">str_detect</span>(text, <span class="fu">str_c</span>(<span class="st">"^(?!("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b).*</span><span class="sc">\\</span><span class="st">?$"</span>)))</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>season_questions <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(season) <span class="sc">|&gt;</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">question_ratio =</span> <span class="fu">mean</span>(ends_with_question_mark),</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="at">complex_question_ratio =</span> <span class="fu">mean</span>(complex_question))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(friends)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">word_count =</span> <span class="fu">str_count</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">w+"</span>), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="at">first_word =</span> <span class="fu">str_extract</span>(text, <span class="st">"^</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="at">ends_with_question_mark =</span> <span class="fu">str_detect</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">?$"</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>question_words <span class="ot">&lt;-</span> <span class="st">"Who|What|When|Where|Why|How"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">starts_with_question_word =</span> <span class="fu">str_detect</span>(text,  <span class="fu">str_c</span>(<span class="st">"^("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="at">contains_question_word =</span> <span class="fu">str_detect</span>(text, <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="at">question_word_count =</span> <span class="fu">str_count</span>(text, <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b"</span>)))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>friends <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">complex_question =</span> <span class="fu">str_detect</span>(text, <span class="fu">str_c</span>(<span class="st">"^(?!("</span>, question_words, <span class="st">")</span><span class="sc">\\</span><span class="st">b).*</span><span class="sc">\\</span><span class="st">?$"</span>)))</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>season_questions <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(season) <span class="sc">|&gt;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">question_ratio =</span> <span class="fu">mean</span>(ends_with_question_mark),</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="at">complex_question_ratio =</span> <span class="fu">mean</span>(complex_question))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(season_questions, <span class="fu">aes</span>(<span class="at">x =</span> season)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> question_ratio, <span class="at">color =</span> <span class="st">"All Questions"</span>)) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> complex_question_ratio, <span class="at">color =</span> <span class="st">"Complex Questions"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Question Usage Throughout Friends Seasons"</span>, <span class="at">x =</span> <span class="st">"Season"</span>, <span class="at">y =</span> <span class="st">"Proportion of Lines"</span>, <span class="at">color =</span> <span class="st">"Question Type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(season_questions, <span class="fu">aes</span>(<span class="at">x =</span> season)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> question_ratio, <span class="at">color =</span> <span class="st">"All Questions"</span>)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> complex_question_ratio, <span class="at">color =</span> <span class="st">"Complex Questions"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Question Usage Throughout Friends Seasons"</span>, <span class="at">x =</span> <span class="st">"Season"</span>, <span class="at">y =</span> <span class="st">"Proportion of Lines"</span>, <span class="at">color =</span> <span class="st">"Question Type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -230,18 +242,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This graph shows how question usage is changing throughout the multiple seasons of the show Friends. We see that all questions asked are stable but a slight dip in the proportion of lines dedicated to questions in the middle of the graph. At the same time, complex questions took a hit as well but since the proportional difference is only around 0.04, it is not a significant drop in questions being asked in the show Friends.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>main_characters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Monica Geller"</span>, <span class="st">"Rachel Green"</span>, <span class="st">"Phoebe Buffay"</span>, <span class="st">"Chandler Bing"</span>, <span class="st">"Joey Tribbiani"</span>, <span class="st">"Ross Geller"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>character_questions <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(speaker <span class="sc">%in%</span> main_characters) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(speaker) <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">question_ratio =</span> <span class="fu">mean</span>(ends_with_question_mark),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">question_word_ratio =</span> <span class="fu">mean</span>(contains_question_word),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">total_lines =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(<span class="fu">desc</span>(question_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>main_characters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Monica Geller"</span>, <span class="st">"Rachel Green"</span>, <span class="st">"Phoebe Buffay"</span>, <span class="st">"Chandler Bing"</span>, <span class="st">"Joey Tribbiani"</span>, <span class="st">"Ross Geller"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>character_questions <span class="ot">&lt;-</span> friends <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(speaker <span class="sc">%in%</span> main_characters) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(speaker) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">question_ratio =</span> <span class="fu">mean</span>(ends_with_question_mark),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="at">question_word_ratio =</span> <span class="fu">mean</span>(contains_question_word),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="at">total_lines =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(<span class="fu">desc</span>(question_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(character_questions, <span class="fu">aes</span>(<span class="at">x =</span> speaker, <span class="at">y =</span> question_ratio)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of Questions Asked by Main Characters"</span>, <span class="at">x =</span> <span class="st">"Character"</span>, <span class="at">y =</span> <span class="st">"Proportion of Lines Ending with Question Mark"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(character_questions, <span class="fu">aes</span>(<span class="at">x =</span> speaker, <span class="at">y =</span> question_ratio)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of Questions Asked by Main Characters"</span>, <span class="at">x =</span> <span class="st">"Character"</span>, <span class="at">y =</span> <span class="st">"Proportion of Lines Ending with Question Mark"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
