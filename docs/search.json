@@ -53,6 +53,104 @@
     "href": "Stanford-Open-Policing-Analysis.html",
     "title": "Stanford Open Policing Analysis",
     "section": "",
-    "text": "We are analyzing whether there is a difference in arrest rates and search rates among all the races being pulled over. In California, we have taken two cities from the Bay Area, San Francisco and Oakland, and one city from Southern California, Anaheim. We will analyze their data.\n\nlibrary(DBI)\nlibrary(RMariaDB)\n\ncon_traffic &lt;- dbConnect(\n  RMariaDB::MariaDB(),\n  dbname = \"traffic\",\n  host = Sys.getenv(\"TRAFFIC_HOST\"),\n  user = Sys.getenv(\"TRAFFIC_USER\"),\n  password = Sys.getenv(\"TRAFFIC_PWD\")\n)\n\n\nSELECT \n    city,\n    subject_race,\n    COUNT(*) AS total_stops,\n    AVG(CASE WHEN arrest_made THEN 1 ELSE 0 END) AS arrest_rate\nFROM (\n    SELECT \n        'San Francisco' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made\n    FROM ca_san_francisco_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n    \n    UNION ALL\n    \n    SELECT \n        'Oakland' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made\n    FROM ca_oakland_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n    \n    UNION ALL\n    \n    SELECT \n        'San Jose' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made \n    FROM ca_san_jose_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n) AS combined\nGROUP BY city, subject_race\nORDER BY arrest_rate DESC;\n\n\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n  ggplot(arrest_data, aes(x = subject_race, y = arrest_rate, fill = city)) +\n  geom_bar(stat = \"identity\", position = \"dodge\") +\n  labs(title = \"Arrest Rates by Race (2014-2017)\", x = \"Subject Race\", y = \"Arrest Rate\", fill = \"City\")\n\n\n\n\n\n\n\n\nBy This chart, we see that black people face higher arrest rates across every city and especially in Oakland where it is almost twice the arrest rate of the next race. Hispanics also face the second highest rates of arrest across the board.\n\nSELECT \n    city,\n    subject_race,\n    COUNT(*) AS total_stops,\n    ROUND(100.0 * AVG(CASE WHEN search_conducted THEN 1 ELSE 0 END), 2) AS search_rate\nFROM (\n    SELECT \n        'San Francisco' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_san_francisco_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n\n    UNION ALL\n\n    SELECT \n        'Oakland' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_oakland_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n\n    UNION ALL\n\n    SELECT \n        'San Jose' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_san_jose_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n) AS combined\nGROUP BY city, subject_race\nORDER BY city, search_rate DESC;\n\n\nlibrary(ggplot2)\nggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = \"dodge\") + labs(title = \"Search Rates by Race (2014-2017)\", x = \"Subject Race\", y = \"Search Rate (%)\", fill = \"City\")\n\n\n\n\n\n\n\n\nSimilar to the data for Arrest Rates, Search rates are higher across the board for black and hispanic people. However, in this case, Hispanic people sometimes have a higher search rate than black people such as in San Jose and the gap between black & hispanic people have closed to around similar rates in San Jose but not in Oakland and San Francisco.\nAll in all, this shows that in Major Cities in the Bay Area, Black and Hispanic people have higher search and arrest rates than other races. This may show that the police reforms that happened back in 2016 may not have fully solved the problem of high search and arrest rates for Black and Hispanic people.\nData is from: Stanford Open Policing Project: https://openpolicing.stanford.edu/data/\nCitation: Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+    "text": "We are analyzing whether there is a difference in arrest rates and search rates among all the races being pulled over. In California, we have taken two cities from the Bay Area, San Francisco and Oakland, and one city from Southern California, Anaheim. We will analyze their data.\n\nlibrary(DBI)\nlibrary(RMariaDB)\n\ncon_traffic &lt;- dbConnect(\n  RMariaDB::MariaDB(),\n  dbname = \"traffic\",\n  host = Sys.getenv(\"TRAFFIC_HOST\"),\n  user = Sys.getenv(\"TRAFFIC_USER\"),\n  password = Sys.getenv(\"TRAFFIC_PWD\")\n)\n\n\nSELECT \n    city,\n    subject_race,\n    COUNT(*) AS total_stops,\n    AVG(CASE WHEN arrest_made THEN 1 ELSE 0 END) AS arrest_rate\nFROM (\n    SELECT \n        'San Francisco' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made\n    FROM ca_san_francisco_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n    \n    UNION ALL\n    \n    SELECT \n        'Oakland' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made\n    FROM ca_oakland_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n    \n    UNION ALL\n    \n    SELECT \n        'San Jose' AS city,\n        YEAR(date) AS stop_year,\n        subject_race,\n        arrest_made \n    FROM ca_san_jose_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n) AS combined\nGROUP BY city, subject_race\nORDER BY arrest_rate DESC;\n\n\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n  ggplot(arrest_data, aes(x = subject_race, y = arrest_rate, fill = city)) +\n  geom_bar(stat = \"identity\", position = position_dodge(width = 0.9), width = 0.6) +\n  labs(title = \"Arrest Rates by Race (2014-2017)\", x = \"Subject Race\", y = \"Arrest Rate\", fill = \"City\")\n\n\n\n\n\n\n\n\nBy This chart, we see that black people face higher arrest rates across every city and especially in Oakland where it is almost twice the arrest rate of the next race. Hispanics also face the second highest rates of arrest across the board.\n\nSELECT \n    city,\n    subject_race,\n    COUNT(*) AS total_stops,\n    ROUND(100.0 * AVG(CASE WHEN search_conducted THEN 1 ELSE 0 END), 2) AS search_rate\nFROM (\n    SELECT \n        'San Francisco' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_san_francisco_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n\n    UNION ALL\n\n    SELECT \n        'Oakland' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_oakland_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n\n    UNION ALL\n\n    SELECT \n        'San Jose' AS city,\n        subject_race,\n        search_conducted\n    FROM ca_san_jose_2020_04_01\n    WHERE YEAR(date) BETWEEN 2014 AND 2017\n) AS combined\nGROUP BY city, subject_race\nORDER BY city, search_rate DESC;\n\n\nlibrary(ggplot2)\nggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = position_dodge(width = 0.9), width = 0.6) + labs(title = \"Search Rates by Race (2014-2017)\", x = \"Subject Race\", y = \"Search Rate (%)\", fill = \"City\")\n\n\n\n\n\n\n\n\nSimilar to the data for Arrest Rates, Search rates are higher across the board for black and hispanic people. However, in this case, Hispanic people sometimes have a higher search rate than black people such as in San Jose and the gap between black & hispanic people have closed to around similar rates in San Jose but not in Oakland and San Francisco.\nAll in all, this shows that in Major Cities in the Bay Area, Black and Hispanic people have higher search and arrest rates than other races. This may show that the police reforms that happened back in 2016 may not have fully solved the problem of high search and arrest rates for Black and Hispanic people.\nData is from: Stanford Open Policing Project: https://openpolicing.stanford.edu/data/\nCitation: Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+  },
+  {
+    "objectID": "FinalPresentation.html",
+    "href": "FinalPresentation.html",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "",
+    "text": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project"
+  },
+  {
+    "objectID": "FinalPresentation.html#racial-biases-in-police-stops-analysis-of-the-stanford-open-policing-project",
+    "href": "FinalPresentation.html#racial-biases-in-police-stops-analysis-of-the-stanford-open-policing-project",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "text": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project\nOverview\n\nAnalyze differences in arrest and search rates by race during police stops.\nFocus on three California cities:\n\nSan Francisco (Bay Area)\nOakland (Bay Area)\nSan Jose (Southern California)\n\nData period: 2014 to 2017.\nData source: Stanford Open Policing Project."
+  },
+  {
+    "objectID": "FinalPresentation.html#section",
+    "href": "FinalPresentation.html#section",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "",
+    "text": "This presentation analyzes racial disparities in arrest and search rates during police stops.\nData is sourced from the Stanford Open Policing Project.\nFocus cities: San Francisco, Oakland, and San Jose all in the Bay Area.\nTime period: 2014–2017."
+  },
+  {
+    "objectID": "FinalPresentation.html#arrest-rates-by-race",
+    "href": "FinalPresentation.html#arrest-rates-by-race",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Arrest Rates by Race",
+    "text": "Arrest Rates by Race"
+  },
+  {
+    "objectID": "FinalPresentation.html#search-rates-by-race",
+    "href": "FinalPresentation.html#search-rates-by-race",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Search Rates by Race",
+    "text": "Search Rates by Race"
+  },
+  {
+    "objectID": "FinalPresentation.html#interpretation-of-arrest-and-search-rates",
+    "href": "FinalPresentation.html#interpretation-of-arrest-and-search-rates",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Interpretation of Arrest and Search Rates",
+    "text": "Interpretation of Arrest and Search Rates\nWhat the Data Suggests\n\nBlack and Hispanic communities experience disproportionately high rates of:\n\nArrests\nSearches\n\nThis pattern is consistent across major Bay Area and Southern California cities.\nIndicates persistent racial disparities in policing practices."
+  },
+  {
+    "objectID": "FinalPresentation.html#impact-of-police-reforms",
+    "href": "FinalPresentation.html#impact-of-police-reforms",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Impact of Police Reforms",
+    "text": "Impact of Police Reforms\nInsights\n\nHigh arrest rates for Black and Hispanic individuals.\nHigh search rates for Black and Hispanic individuals.\nContinued efforts are necessary to promote equitable treatment."
+  },
+  {
+    "objectID": "FinalPresentation.html#conclusion",
+    "href": "FinalPresentation.html#conclusion",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Conclusion",
+    "text": "Conclusion\nSummary Points\n\nSignificant racial disparities exist in arrest and search rates in San Francisco, Oakland, and San Jose.\nBlack and Hispanic populations are disproportionately affected.\nThese disparities highlight challenges in achieving fair policing practices.\nReform must continue in the areas of arresting and searching"
+  },
+  {
+    "objectID": "FinalPresentation.html#thank-you-citations",
+    "href": "FinalPresentation.html#thank-you-citations",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Thank You & Citations",
+    "text": "Thank You & Citations\nAcknowledgments\nThank you for your attention!\nData Source:\nStanford Open Policing Project\nhttps://openpolicing.stanford.edu/data/\nCitation:\nPierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020.\n“A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+  },
+  {
+    "objectID": "FinalPresentation.html#limitations",
+    "href": "FinalPresentation.html#limitations",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Limitations",
+    "text": "Limitations\n\nBecause there were police reforms in both 2016 and 2020…\nIt would have been helpful to collect data from the past couple of years as well to compare.\nIn addition, looking at cities in Southern California or a larger city like New York City would have added to the argument for reforms if the search and arrest rates were similar or gone against the argument for reforms."
+  },
+  {
+    "objectID": "FinalPresentation.html#thank-you-citation",
+    "href": "FinalPresentation.html#thank-you-citation",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Thank You & Citation",
+    "text": "Thank You & Citation\nThank you for your listening to me!\nData Source:\nStanford Open Policing Project\nhttps://openpolicing.stanford.edu/data/\nCitation:\nPierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020.\n“A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+  },
+  {
+    "objectID": "FinalPresentation.html#arrest-rates-by-race---analysis",
+    "href": "FinalPresentation.html#arrest-rates-by-race---analysis",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Arrest Rates by Race - Analysis",
+    "text": "Arrest Rates by Race - Analysis\n\nBlack individuals face higher arrest rates in every city.\nOakland shows the largest disparity:\n\nArrest rate for Black individuals nearly twice that of the next highest race.\n\nHispanic individuals consistently have the second highest arrest rates."
+  },
+  {
+    "objectID": "FinalPresentation.html#search-rates-by-race---analysis",
+    "href": "FinalPresentation.html#search-rates-by-race---analysis",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Search Rates by Race - Analysis",
+    "text": "Search Rates by Race - Analysis\n\nSearch rates are higher for Black and Hispanic individuals across all cities.\nIn San Jose:\n\nHispanic search rates sometimes exceed those of Black individuals.\nThe gap between Black and Hispanic search rates narrows.\n\nIn Oakland and San Francisco:\n\nThe disparity between Black and Hispanic search rates remains significant."
+  },
+  {
+    "objectID": "FinalPresentation.html#thank-you-for-listening-to-me",
+    "href": "FinalPresentation.html#thank-you-for-listening-to-me",
+    "title": "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project",
+    "section": "Thank You for listening to me!",
+    "text": "Thank You for listening to me!\nData Source:\nStanford Open Policing Project\nhttps://openpolicing.stanford.edu/data/\nCitation:\nPierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020.\n“A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
   }
 ]
