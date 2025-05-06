@@ -7,6 +7,9 @@ Questions of Interest: "How do questions change throughout the seasons of Friend
 
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(friends)
 library(tidyverse)
 library(stringr)
