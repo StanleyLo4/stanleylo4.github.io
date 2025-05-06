@@ -64,7 +64,7 @@ ORDER BY arrest_rate DESC;
 ```{r}
 library(ggplot2)
   ggplot(arrest_data, aes(x = subject_race, y = arrest_rate, fill = city)) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), width = 0.6) +
   labs(title = "Arrest Rates by Race (2014-2017)", x = "Subject Race", y = "Arrest Rate", fill = "City")
 ```
 
@@ -108,7 +108,7 @@ ORDER BY city, search_rate DESC;
 
 ```{r}
 library(ggplot2)
-ggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = "dodge") + labs(title = "Search Rates by Race (2014-2017)", x = "Subject Race", y = "Search Rate (%)", fill = "City")
+ggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = position_dodge(width = 0.9), width = 0.6) + labs(title = "Search Rates by Race (2014-2017)", x = "Subject Race", y = "Search Rate (%)", fill = "City")
 ```
 
 Similar to the data for Arrest Rates, Search rates are higher across the board for black and hispanic people. However, in this case, Hispanic people sometimes have a higher search rate than black people such as in San Jose and the gap between black & hispanic people have closed to around similar rates in San Jose but not in Oakland and San Francisco.

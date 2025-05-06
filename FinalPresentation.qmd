@@ -1,0 +1,110 @@
+---
+title: "Racial Biases in Police Stops: Analysis of the Stanford Open Policing Project"
+author: "Stanley Lo"
+subtitle: "May 2025"
+format:
+  revealjs:
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+### Overview
+
+- Analyze differences in arrest and search rates by race during police stops.
+- Focus on three Bay Area California cities:
+  - San Francisco 
+  - Oakland 
+  - San Jose 
+- Time Frame: 2014 to 2017.
+- Data source: Stanford Open Policing Project.
+
+---
+
+## Arrest Rates by Race
+![](images/arrest_rates.png){width=100% alt="Arrest Rates by Race"}
+
+---
+
+## Arrest Rates by Race - Analysis
+
+- Black individuals face higher arrest rates in **every city**.
+- Oakland shows the **largest disparity**:
+  - Arrest rate for Black individuals nearly **twice** that of the next highest race.
+- Hispanic individuals consistently have the **second highest** arrest rates.
+
+---
+
+## Search Rates by Race
+
+![](images/search_rates.png){width=60% alt="Search Rates by Race"}
+
+---
+
+## Search Rates by Race - Analysis
+
+- Search rates are higher for **Black and Hispanic** individuals across all cities.
+- In San Jose:
+  - Hispanic search rates sometimes **exceed** those of Black individuals.
+  - The gap between Black and Hispanic search rates **narrows**.
+- In Oakland and San Francisco:
+  - The disparity between Black and Hispanic search rates remains **significant**.
+
+---
+
+## Interpretation of Arrest and Search Rates
+
+### What the Data Suggests
+
+- Black and Hispanic communities experience disproportionately high rates of:
+  - Arrests
+  - Searches
+- This pattern is consistent across major Bay Area and Southern California cities.
+- Indicates **persistent racial disparities** in policing practices.
+
+---
+
+## Impact of Police Reforms
+
+### Insights
+
+  - High arrest rates for Black and Hispanic individuals.
+  - High search rates for Black and Hispanic individuals.
+- Continued efforts are necessary to promote **equitable treatment**.
+
+---
+
+## Conclusion
+
+### Summary Points
+
+- Significant racial disparities exist in arrest and search rates in San Francisco, Oakland, and San Jose.
+- Black and Hispanic populations are disproportionately affected.
+- These disparities highlight challenges in achieving fair policing practices.
+- Reform must continue in the areas of arresting and searching
+
+---
+
+## Limitations
+
+- Because there were police reforms in both 2016 and 2020...
+
+  It would have been helpful to collect data from the    past couple of years as well to compare.
+
+- In addition, looking at cities in Southern California or a larger city like New York City would have added to the argument for reforms if the search and arrest rates were similar or gone against the argument for reforms.
+---
+
+## Thank You for listening to me!
+
+**Data Source:**  
+Stanford Open Policing Project  
+https://openpolicing.stanford.edu/data/
+
+**Citation:**  
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020.  
+“A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” *Nature Human Behaviour*, 1–10.
