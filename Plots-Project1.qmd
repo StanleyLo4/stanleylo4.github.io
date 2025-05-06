@@ -9,7 +9,7 @@ format: html
 
 This analysis explores the global seafood production dataset provided by TidyTuesday and we can see the trends in seafood production through time.
 
-From the plot, we see that global seafood production has increased steadily into the 2000s and since then, has leveled off and is staying consistently high probably due to controls on overfishing.
+From the plot, we see that global seafood production has increased steadily into the 2000s and since then, has leveled off and is staying consistently high.
 
 Citation: https://ourworldindata.org/fish-and-overfishing
 
