@@ -8,19 +8,18 @@ website:
     left:
       - href: index.qmd
         text: Home
-        menu:
-        - text: "About"
-          href: about.html
-        - text: "Plots Project 1"
-          href: plots-project1.html
-        - text: "Friends Character Data"
-          href: Friends-Character-Data.html
-        - text: "Simulation" 
-          href: Simulation.html
-        - text: "EthicsDataPower" 
-          href: EthicsDataPower.html
-        - text: "Stanford Open Policing Analysis" 
-          href: Stanford-Open-Policing-Analysis.html
+      - text: "About"
+        href: about.html
+      - text: "Plots Project 1"
+        href: plots-project1.html
+      - text: "Friends Character Data"
+        href: Friends-Character-Data.html
+      - text: "Simulation" 
+        href: Simulation.html
+      - text: "EthicsDataPower" 
+        href: EthicsDataPower.html
+      - text: "Stanford Open Policing Analysis" 
+        href: Stanford-Open-Policing-Analysis.html
           
 # ~ additional metadata excluded for brevity ~
 
