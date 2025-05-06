@@ -22,6 +22,9 @@ Citation: https://www.pro-football-reference.com/years/2018/attendance.htm
 ------------------------------------------------------------------------
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(tidyverse)
 seafood <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-12/seafood-and-fish-production-thousand-tonnes.csv')
 
@@ -32,6 +35,9 @@ ggplot(seafood, aes(x = Year, y = `Commodity Balances - Livestock and Fish Prima
 ```
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(tidyverse)
 nfl_attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')
 

@@ -18,6 +18,9 @@ IMBD ratings compared to Drama Movies.
 This analysis checks whether observed rating differences between Action and Drama films reflect genre qualities or random variation. Using permutation testing, we'll simulate 10,000 random genre assignments to build a null distribution of rating differences.
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(tidyverse)
 library(infer)  
 
@@ -61,6 +64,9 @@ genre_results <- genre_permutation_test(action_drama, 10000)
 ```
 
 ```{r}
+#| message: false
+#| warning: false
+
 action_drama |>
   ggplot(aes(x = average_rating, fill = genres)) +
   geom_density(alpha = 0.6) +
@@ -73,6 +79,9 @@ action_drama |>
 Since the action movies are showing a left skew and has a mean of 6.2 compared to the mean of the drama movies are 6.5 which shows a slight difference in the ratings.
 
 ```{r}
+#| message: false
+#| warning: false
+
 genre_results$null_distribution |>
   visualize() +
   shade_p_value(genre_results$observed_effect, direction = "both") + labs(
@@ -88,6 +97,9 @@ p_val <- genre_results$p_value
 This shows the difference is extremely small and the distribution is centered at zero and the difference is at the tail of the null distribution, therefore, this cannot have happened by chance alone.
 
 ```{r}
+#| message: false
+#| warning: false
+
 n_permutations <- c(1000, 5000, 10000) |>
   set_names() |>
   map_dbl(

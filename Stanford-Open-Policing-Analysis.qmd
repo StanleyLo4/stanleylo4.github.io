@@ -6,6 +6,9 @@ format: html
 We are analyzing whether there is a difference in arrest rates and search rates among all the races being pulled over. In California, we have taken two cities from the Bay Area, San Francisco and Oakland, and one city from Southern California, Anaheim. We will analyze their data.
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(DBI)
 library(RMariaDB)
 
