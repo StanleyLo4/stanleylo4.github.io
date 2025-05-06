@@ -11,7 +11,7 @@ website:
       - text: "About"
         href: about.html
       - text: "Plots Project 1"
-        href: plots-project1.html
+        href: Plots-Project1.html
       - text: "Friends Character Data"
         href: Friends-Character-Data.html
       - text: "Simulation" 
