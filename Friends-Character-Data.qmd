@@ -8,7 +8,7 @@ Questions of Interest: "How do questions change throughout the seasons of Friend
 
 ```{r}
 library(friends)
-suppressPackageStartupMessages(library(tidyverse))
+library(tidyverse)
 library(stringr)
 library(ggplot2)
 data(friends)
