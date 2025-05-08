@@ -26,8 +26,31 @@ execute:
 
 ---
 
-## Arrest Rates by Race
-![](images/arrest_rates.png){width=100% alt="Arrest Rates by Race"}
+### Arrest Rates By Race
+
+SELECT 
+    city,
+    subject_race,
+    COUNT(*) AS total_stops,
+    AVG(CASE WHEN arrest_made THEN 1 ELSE 0 END) AS arrest_rate
+FROM (
+    SELECT 
+        'San Francisco' AS city,
+        YEAR(date) AS stop_year,
+        subject_race,
+        arrest_made
+    FROM ca_san_francisco_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
+    UNION ALL
+---
+
+## Arrest Rates by Race (cont.)
+```{r}
+library(ggplot2)
+  ggplot(arrest_data, aes(x = subject_race, y = arrest_rate, fill = city)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), width = 0.6) +
+  labs(title = "Arrest Rates by Race (2014-2017)", x = "Subject Race", y = "Arrest Rate", fill = "City")
+```
 
 ---
 
@@ -39,11 +62,16 @@ execute:
 - Hispanic individuals consistently have the **second highest** arrest rates.
 
 ---
+### Search Rates By Race
 
-## Search Rates by Race
+---
 
-![](images/search_rates.png){width=60% alt="Search Rates by Race"}
 
+## Search Rates by Race (cont.)
+```{r}
+library(ggplot2)
+ggplot(search_data, aes(x = subject_race, y = search_rate, fill = city)) + geom_col(position = position_dodge(width = 0.9), width = 0.6) + labs(title = "Search Rates by Race (2014-2017)", x = "Subject Race", y = "Search Rate (%)", fill = "City")
+```
 ---
 
 ## Search Rates by Race - Analysis
