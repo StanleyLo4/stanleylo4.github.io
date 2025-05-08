@@ -33,7 +33,7 @@ execute:
 
 ## Arrest Rates by Race - Analysis
 
-- Black individuals face higher arrest rates in **every city**.
+- Black individuals have the highest number of arrests out of all arrests in **every city**.
 - Oakland shows the **largest disparity**:
   - Arrest rate for Black individuals nearly **twice** that of the next highest race.
 - Hispanic individuals consistently have the **second highest** arrest rates.
@@ -61,21 +61,18 @@ execute:
 
 ### What the Data Suggests
 
-- Black and Hispanic communities experience disproportionately high rates of:
+- Out of all arrests, Black and Hispanic people experience high rates of:
   - Arrests
   - Searches
 - This pattern is consistent across major Bay Area and Southern California cities.
-- Indicates **persistent racial disparities** in policing practices.
+- Indicates **potential racial disparities** in policing practices if taking a look at proportion of races in each city.
 
 ---
 
-## Impact of Police Reforms
-
 ### Insights
 
-  - High arrest rates for Black and Hispanic individuals.
-  - High search rates for Black and Hispanic individuals.
-- Continued efforts are necessary to promote **equitable treatment**.
+  - High arrest rates for Black and Hispanic individuals out of all arrests made.
+  - High search rates for Black and Hispanic individuals out of all searches made.
 
 ---
 
@@ -83,18 +80,15 @@ execute:
 
 ### Summary Points
 
-- Significant racial disparities exist in arrest and search rates in San Francisco, Oakland, and San Jose.
-- Black and Hispanic populations are disproportionately affected.
-- These disparities highlight challenges in achieving fair policing practices.
-- Reform must continue in the areas of arresting and searching
+- Potential racial disparities exist in arrest and search rates in San Francisco, Oakland, and San Jose.
+- Black and Hispanic people make up most of the arrest and search rates.
+- These disparities highlight potential challenges in achieving fair policing practices.
 
 ---
 
 ## Limitations
 
-- Because there were police reforms in both 2016 and 2020...
-
-  It would have been helpful to collect data from the    past couple of years as well to compare.
+- It would've been helpful to collect data on the demographics of the populations in each city.
 
 - In addition, looking at cities in Southern California or a larger city like New York City would have added to the argument for reforms if the search and arrest rates were similar or gone against the argument for reforms.
 ---
