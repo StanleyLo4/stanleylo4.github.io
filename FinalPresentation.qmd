@@ -64,8 +64,22 @@ library(ggplot2)
 ---
 ### Search Rates By Race
 
----
+SELECT 
+    city,
+    subject_race,
+    COUNT(*) AS total_stops,
+    ROUND(100.0 * AVG(CASE WHEN search_conducted THEN 1 ELSE 0 END), 2) AS search_rate
+FROM (
+    SELECT 
+        'San Francisco' AS city,
+        subject_race,
+        search_conducted
+    FROM ca_san_francisco_2020_04_01
+    WHERE YEAR(date) BETWEEN 2014 AND 2017
 
+    UNION ALL
+
+---
 
 ## Search Rates by Race (cont.)
 ```{r}
