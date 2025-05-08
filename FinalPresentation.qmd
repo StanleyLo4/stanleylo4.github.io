@@ -16,7 +16,7 @@ execute:
 
 ### Overview
 
-- Analyze differences in arrest and search rates by race during police stops.
+- Analyze differences in arrest and search rates by race during police stops
 - Focus on three Bay Area California cities:
   - San Francisco 
   - Oakland 
